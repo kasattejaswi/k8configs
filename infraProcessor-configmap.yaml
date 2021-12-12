@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: infraprocessor-configmap
+  namespace: bfc-assignment
+data:
+  topic: CPU_Topic
+  brokerAddress: kafka:9092
+  groupId: infraProcessorGroup
+  outFilePath: /app/outPoint/cpuMetrics.txt
+  runTimeout: "-1"
