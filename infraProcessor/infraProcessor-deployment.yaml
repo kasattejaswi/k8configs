@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: bfc-assignment
+  name: infraprocessor
+spec:
+  selector:
+    matchLabels:
+      app: infraprocessor
+  template:
+    metadata:
+      labels:
+        app: infraprocessor
+    spec:
+      containers:
+      - image: tejaswikasat/infraprocessor
+        name: infraprocessor
+        env:
+        - name: TOPIC
+          valueFrom:
+            configMapKeyRef:
+              name: infraprocessor-configmap
+              key: topic
+        - name: BROKER_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: infraprocessor-configmap
+              key: brokerAddress
+        - name: GROUP_ID
+          valueFrom:
+            configMapKeyRef:
+              name: infraprocessor-configmap
+              key: groupId
+        - name: OUT_FILE_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: infraprocessor-configmap
+              key: outFilePath
+        - name: RUN_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              name: infraprocessor-configmap
+              key: runTimeout
+        volumeMounts:
+        - name: infraprocessor-storage
+          mountPath: /app/outPoint/
+      volumes:
+      - name: infraprocessor-storage
+        hostPath:
+          path: /infraprocessor
+          type: DirectoryOrCreate
+          

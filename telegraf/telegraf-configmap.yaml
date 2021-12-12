@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: bfc-assignment
+  name: telegraf-config
+data:
+  telegraf.conf: |+
+    [[outputs.kafka]]
+      brokers = ["$BROKER_ADDRESS"]
+      topic = "$TOPIC"
+    [[inputs.cpu]]
+      percpu = true
+      totalcpu = true
+      collect_cpu_time = false
+      report_active = false
